@@ -10,16 +10,21 @@
         </div>
         <div class="box">
         
-            <% for(var i=0 ; i< ejes.length ; i++){ %>
-                <div class="item">
-                    <input type="checkbox">
-                    <p><%= ejes[i].name %></p>
-                </div>
+            <% ejes.forEach(function(items){ %>
                 
-            <% } %>
+                <form action="/delete" method="POST">
+                    <div class="item">
+                        <input type="checkbox" name="checkbox1" value="<%= items._id %>" onchange="this.form.submit()">
+                        <p><%= items.name %></p>
+                    </div>
+                </form>
+                
+            <%}) %>
+                
+                
 
             <form action="/" method="POST">
-                <input type="text" name="task" placeholder="Enter the task">
+                <input type="text" name="add" placeholder="Enter task">
                 <button type="submit">+</button>
             </form>
         </div>

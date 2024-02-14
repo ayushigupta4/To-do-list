@@ -50,18 +50,18 @@ const task4 = new Todo({
     name: "Update resume"
 });
 
-async function saveTodo(){
+async function saveTodo(task){
     try {
         
-        await task2.save();
-        await task3.save();
-        await task4.save();
+        await task.save();
         console.log("Save successful");
     } catch(error) {
         console.error("Error while saving: ", error);
     }
 }
-//saveTodo();
+//saveTodo(task2);
+//saveTodo(task3);
+//saveTodo(task4);
 
 async function findTodo() {
     try {
@@ -77,6 +77,31 @@ app.get("/", async function(req,res){
     res.render("list",{ejes: data});
 
 });
+
+app.post("/", function(req,res){
+    const task = req.body.add;
+    const task5 = new Todo({
+        name: task
+    });
+    saveTodo(task5);
+    res.redirect("/");
+});
+
+async function deleteTodo(task) {
+    try{
+        await Todo.findByIdAndDelete(task);
+        console.log("Task deleted");
+        
+    } catch(error) {
+        console.error("Error while deleting: ", error);
+    }
+}
+
+app.post("/delete", async function(req,res){
+    const checked = req.body.checkbox1;
+    await deleteTodo(checked);
+    res.redirect("/");
+})
 app.listen("3000",function(){
     console.log("Server started");
 });
